@@ -1,0 +1,8 @@
+{
+    "signal": "SIGINT",
+    "watch": [
+      "src"
+    ],
+    "ext": "ts,tsx,js,jsx,html,yaml",
+    "exec": "npm run build:development && npm run start"
+  }
