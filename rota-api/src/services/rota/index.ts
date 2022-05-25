@@ -1,2 +1,7 @@
-export { createRota } from './createRota';
-export { rotaJSON as getRota } from './getRota';
+import { createRota } from './createRota';
+import { rotaJSON as getRota } from './getRota';
+
+export const RotaService = {
+	createRota,
+	getRota,
+};

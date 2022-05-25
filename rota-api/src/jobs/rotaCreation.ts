@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 import fs from 'fs';
-import { createRota } from '../services/rota';
+import { RotaService } from '../services/rota';
 
 /*
     * * * * * *
@@ -13,34 +13,42 @@ import { createRota } from '../services/rota';
     second ( optional )
 */
 
-function runCron() {
+export function runCron() {
+	// this is once every two seconds
 	cron.schedule('*/2 * * * * *', () => {
+		// cron.schedule('01 00 * * * Sun', () => {
+		// this is once every Sunday at 1 minute past midnight
 		setUpdatable();
 	});
 }
 
 const setUpdatable = () => {
 	const isUpdatabale = JSON.parse(
-		fs.readFileSync('src/jobs/rotaInfo.json', 'utf8')
+		fs.readFileSync('src/json/rotaInfo.json', 'utf8')
 	);
+
+	/* 
+		the cron runs once a week on Sunday 
+		it checks to see if it should update this week (isUpdateWeek)
+		each week it changes the value of isUpdateWeek to it's opposite boolean value.
+		when isUpdateWeek is true, we update the rota.
+	*/
 	if (isUpdatabale.isUpdateWeek) {
-		console.log('all good');
 		isUpdatabale.isUpdateWeek = false;
 		fs.writeFileSync(
-			'src/jobs/rotaInfo.json',
+			'src/json/rotaInfo.json',
 			JSON.stringify(isUpdatabale)
 		);
-		createRota();
+		RotaService.createRota();
 	} else {
-		console.log('not all good');
 		isUpdatabale.isUpdateWeek = true;
 		fs.writeFileSync(
-			'src/jobs/rotaInfo.json',
+			'src/json/rotaInfo.json',
 			JSON.stringify(isUpdatabale)
 		);
 	}
 };
-runCron();
+
 /* 
     every day - 2 engineers are picked from the pool of engineers
     the 2 engineers chosen cannot have done a shift the day before
