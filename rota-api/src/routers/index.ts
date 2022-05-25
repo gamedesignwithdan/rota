@@ -16,6 +16,7 @@ router.get('/', async (_req: IRequest, res: IResponse) => {
 router.get('/rota', async (_req: IRequest, res: IResponse) => {
 	try {
 		const rota = RotaService.getRota();
+		console.log(rota);
 		res.status(200).json(rota);
 	} catch (err) {
 		const error = err as Error;

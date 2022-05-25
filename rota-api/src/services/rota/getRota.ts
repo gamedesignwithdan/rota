@@ -1,4 +1,3 @@
-import fs from 'fs';
+import { RequestService } from '../request';
 
-export const rotaJSON = () =>
-	JSON.parse(fs.readFileSync('src/json/rota.json', 'utf8'));
+export const rotaJSON = () => RequestService.read('src/json/rota.json');

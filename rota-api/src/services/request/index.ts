@@ -9,7 +9,6 @@ const read = (path: string): Payload | null => {
 	try {
 		return JSON.parse(fs.readFileSync(path, 'utf8'));
 	} catch (err) {
-		console.log(err);
 		return null;
 	}
 };

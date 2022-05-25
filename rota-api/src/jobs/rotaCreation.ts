@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 import fs from 'fs';
 import { RotaService } from '../services/rota';
+import { RequestService } from '../services/request';
 
 /*
     * * * * * *
@@ -14,9 +15,14 @@ import { RotaService } from '../services/rota';
 */
 
 export function runCron() {
+	const isRotaThere = Boolean(RequestService.read('src/json/rota.json'));
+
+	if (!isRotaThere) {
+		RotaService.createRota();
+	}
 	// this is once every two seconds
-	cron.schedule('*/2 * * * * *', () => {
-		// cron.schedule('01 00 * * * Sun', () => {
+	// cron.schedule('*/2 * * * * *', () => {
+	cron.schedule('01 00 * * * Sun', () => {
 		// this is once every Sunday at 1 minute past midnight
 		setUpdatable();
 	});
