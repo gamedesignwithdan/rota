@@ -1,4 +1,3 @@
 /dist
-/src/json/rota.json
-/src/json/rotaInfo.json
+/src/json/*
 /node_modules
